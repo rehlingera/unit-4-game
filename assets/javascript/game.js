@@ -21,51 +21,45 @@ var playGame = function () {
         {name: "Aragorn",
         healthPoints: 150,
         attackPower: 5,
-        counterAttack: 15,
+        counterAttack: 7,
         waitPic: "assets/images/AragornWait.png",
         fightPic: "assets/images/AragornFight.png",
-        defeatPic: "assets/images/AragornDefeat.png",
-        funFact: "Aragorn was the Elessar, the destined king of his people. Blessed as a Dunedain with long life, he died at the age of 210."},
+        defeatPic: "assets/images/AragornDefeat.png"},
         {name: "Arwen",
         healthPoints: 140,
-        attackPower: 4,
-        counterAttack: 12,
+        attackPower: 6,
+        counterAttack: 8,
         waitPic: "assets/images/ArwenWait.png",
         fightPic: "assets/images/ArwenFight.png",
-        defeatPic: "assets/images/ArwenDefeat.png",
-        funFact: ""},
+        defeatPic: "assets/images/ArwenDefeat.png"},
         {name: "Gollum",
-        healthPoints: 160,
-        attackPower: 6,
-        counterAttack: 5,
+        healthPoints: 180,
+        attackPower: 4,
+        counterAttack: 6,
         waitPic: "assets/images/GollumWait.png",
         fightPic: "assets/images/GollumFight.png",
-        defeatPic: "assets/images/GollumDefeat.png",
-        funFact: ""},
+        defeatPic: "assets/images/GollumDefeat.png"},
         {name: "Eowyn",
         healthPoints: 120,
-        attackPower: 4,
-        counterAttack: 11,
+        attackPower: 8,
+        counterAttack: 10,
         waitPic: "assets/images/EowynWait.png",
         fightPic: "assets/images/EowynFight.png",
-        defeatPic: "assets/images/EowynDefeat.png",
-        funFact: ""},
+        defeatPic: "assets/images/EowynDefeat.png"},
         {name: "Lurtz",
         healthPoints: 130,
-        attackPower: 5,
-        counterAttack: 16,
+        attackPower: 7,
+        counterAttack: 9,
         waitPic: "assets/images/LurtzWait.png",
         fightPic: "assets/images/LurtzFight.png",
-        defeatPic: "assets/images/LurtzDefeat.png",
-        funFact: ""},
+        defeatPic: "assets/images/LurtzDefeat.png"},
         {name: "Treebeard",
-        healthPoints: 180,
-        attackPower: 7,
-        counterAttack: 20,
+        healthPoints: 100,
+        attackPower: 10,
+        counterAttack: 12,
         waitPic: "assets/images/TreebeardWait.png",
         fightPic: "assets/images/TreebeardFight.png",
-        defeatPic: "assets/images/TreebeardDefeat.png",
-        funFact: ""},
+        defeatPic: "assets/images/TreebeardDefeat.png"},
 ];
     
     $("#charAreaTitle").html("<h2>Characters</h2><div class='row' id='charArea'></div>");
@@ -75,14 +69,14 @@ var playGame = function () {
 
     for (i = 0; i < characters.length; i++) {
         $("#charArea").append(
-            "<div class = 'col-md-2 charPick' id = " + i + "><div class = 'charPickBack'><img src = " + characters[i].waitPic + " alt = " + characters[i].name + "><h4 class = 'charPickName'>" + characters[i].name + "</h4></div>");
+            "<div class = 'col-md-2 charPick' id='p" + i + "'><div class = 'charPickBack' id = " + i + "><img src = " + characters[i].waitPic + " alt = " + characters[i].name + "><h4 class = 'charPickName'>" + characters[i].name + "</h4></div>");
     };    
     
     var characterPick = function () {
         if (playerPicked === false) {
             var i = this.id
             console.log (i);
-            $("#" + i).empty();
+            $("#p" + i).empty();
             $(".charPickBack").attr("class","enemyPickBack");
             $("#playerArea").append(
                 "<div id=" + i + " class='charPickBack' style='width:100%'><img id='playerImg' src = " + characters[i].fightPic + " alt = " + characters[i].name + "><div id='healthBar"+[i] +"' style='width: "+playerHealthBar+"%; height: 10px; background-color: RGBA(150,0,0,1)'></div><h4 class='playerPickName'>" + characters[i].name + "</h4></div>");
@@ -98,8 +92,8 @@ var playGame = function () {
             var i = this.id;
             enemyHealthBar = 100;
             console.log (i);
-            $("#" + i).empty();
-            $(".charPick").off("click");
+            $("#p" + i).empty();
+            $(".enemyPickBack").off("click");
             $("#enemyArea").append(
                 "<div id=" + i + " class='enemyPickBack' style='width: 100%'><img id='enemyImg' src = " + characters[i].fightPic + " alt = " + characters[i].name + "><div id='healthBar"+[i]+"' style='width: "+enemyHealthBar+"%; height: 10px; background-color: RGBA(150,0,0,1)'></div><h4 class='enemyPickName'>" + characters[i].name + "</h4></div>");
             enemyHealth = characters[i].healthPoints;
@@ -110,9 +104,22 @@ var playGame = function () {
         };
     };
 
-    $(".charPick").on("click", characterPick);
+    $(".charPickBack").on("click", characterPick);
+    $(".enemyPickBack").on("click", characterPick);
 
     var attack = function() {
+        $("#playerHit").html("<h4 id='playerHitNumber' style='color:RGBA(255,255,255,1); position:relative; top: 30%'>-" + enemyAttack + "</h4>");
+        $("#playerHitNumber").animate({
+            opacity: 0,
+            top: "-=50",
+        }, 1000, function() {
+        });
+        $("#enemyHit").html("<h4 id='enemyHitNumber' style='color:RGBA(255,255,255,1); position:relative; top: 30%'>-" + playerNewAttack + "</h4>");
+        $("#enemyHitNumber").animate({
+            opacity: 0,
+            top: "-=50",
+        }, 1000, function() {
+        });
         playerHealth = playerHealth-enemyAttack;
         enemyHealth = enemyHealth-playerNewAttack;
         playerNewAttack = playerAttack + playerNewAttack;
@@ -122,6 +129,9 @@ var playGame = function () {
         newEnemyHealthBar = enemyHealthBar*100+"%";
         $("#healthBar"+playerId).css("width",newPlayerHealthBar);
         $("#healthBar"+enemyId).css("width",newEnemyHealthBar);
+        
+              
+
         console.log (playerId);
         console.log ("Player health bar: "+newPlayerHealthBar);
         console.log ("Player stats: "+playerHealth+" "+playerNewAttack);
@@ -132,7 +142,7 @@ var playGame = function () {
             $("#defeatedArea").append(
                 "<div class = 'col-md-2 defeated' id = " + enemyId + "><div class = 'charPickBack'><img src = " + characters[enemyId].defeatPic + " alt = " + characters[enemyId].name + "><h4 class = 'charPickName'>" + characters[enemyId].name + "</h4></div></div>");
             $("#attackButton").off("click");
-            $(".charPick").on("click", characterPick);
+            $(".enemyPickBack").on("click", characterPick);
             winRounds++
         }
 

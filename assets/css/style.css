@@ -1,0 +1,71 @@
+body {
+    background-image: url("../images/Gandalf-Background.jpg");
+    background-size: 100%;
+}
+
+button {
+    margin: auto;
+    vertical-align: middle;
+}
+
+.enemyPickBack {
+    width: 100%;
+    background-color: RGBA(255,0,0,.5);
+    padding: 5px;
+}
+
+.charPickBack {
+    width: 100%;
+    background-color: RGBA(255,255,255,.5);
+    padding: 5px;
+}
+
+img {
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+.charPickName {
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-family: 'Uncial Antiqua', cursive;
+}
+
+h4 {
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-family: 'Uncial Antiqua', cursive;
+}
+
+.enemyPickName {
+    color: RGBA(255,255,255,1);
+    font-family: 'Uncial Antiqua', cursive;
+}
+
+#attackButton{
+    width: 100px;
+    padding-top: 15%;
+    padding-bottom: 50%;
+}
+
+p, h1, h2 {
+    font-family: 'Uncial Antiqua',cursive;
+    text-align: center;
+}
+
+#charAreaTitle {
+    background-color: RGBA(255,255,255,.5);
+    padding-bottom: 1%;
+}
+
+#defeatedAreaTitle {
+    color: RGBA(255,255,255,1);
+}
+
+.enemyBack, .playerBack {
+    background-color: RGBA(255,255,255,.5);
+}

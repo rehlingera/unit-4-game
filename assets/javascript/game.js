@@ -63,7 +63,7 @@ var playGame = function () {
 ];
     
     $("#charAreaTitle").html("<h2>Characters</h2><div class='row' id='charArea'></div>");
-    $("#playerArea").empty();
+    $("#playerArea").html("<p style='position: relative; top: 30%'>Choose a player</p>");
     $("#enemyArea").empty();
     $("#defeatedArea").empty();
 
@@ -78,15 +78,17 @@ var playGame = function () {
             console.log (i);
             $("#p" + i).empty();
             $(".charPickBack").attr("class","enemyPickBack");
-            $("#playerArea").append(
+            $("#playerArea").html(
                 "<div id=" + i + " class='charPickBack' style='width:100%'><img id='playerImg' src = " + characters[i].fightPic + " alt = " + characters[i].name + "><div id='healthBar"+[i] +"' style='width: "+playerHealthBar+"%; height: 10px; background-color: RGBA(150,0,0,1)'></div><h4 class='playerPickName'>" + characters[i].name + "</h4></div>");
             $(".charPickName").css("color","RGBA(255,255,255,1)");
             playerHealth = characters[i].healthPoints;
             playerAttack = characters[i].attackPower;
             playerNewAttack = playerAttack;
-            playerId = this.id
-            console.log ("Stats: " + playerHealth + " " + playerAttack)
-            playerPicked = true}
+            playerId = this.id;
+            console.log ("Stats: " + playerHealth + " " + playerAttack);
+            playerPicked = true;
+            $("#enemyArea").html("<p style='position: relative; top: 30%'>Choose an enemy</p>");
+        }
 
         else if (playerPicked === true) {
             var i = this.id;
@@ -94,7 +96,7 @@ var playGame = function () {
             console.log (i);
             $("#p" + i).empty();
             $(".enemyPickBack").off("click");
-            $("#enemyArea").append(
+            $("#enemyArea").html(
                 "<div id=" + i + " class='enemyPickBack' style='width: 100%'><img id='enemyImg' src = " + characters[i].fightPic + " alt = " + characters[i].name + "><div id='healthBar"+[i]+"' style='width: "+enemyHealthBar+"%; height: 10px; background-color: RGBA(150,0,0,1)'></div><h4 class='enemyPickName'>" + characters[i].name + "</h4></div>");
             enemyHealth = characters[i].healthPoints;
             enemyAttack = characters[i].counterAttack;
@@ -135,7 +137,7 @@ var playGame = function () {
         console.log (playerId);
         console.log ("Player health bar: "+newPlayerHealthBar);
         console.log ("Player stats: "+playerHealth+" "+playerNewAttack);
-        console.log ("Enemy stats: "+enemyHealth+" "+enemyAttack);
+        console.log ("Enemy stats: "+enemyHealth+" "+enemyAttack);  
 
         if (enemyHealth <= 0) {
             $("#enemyArea").empty();
@@ -143,22 +145,30 @@ var playGame = function () {
                 "<div class = 'col-md-2 defeated' id = " + enemyId + "><div class = 'charPickBack'><img src = " + characters[enemyId].defeatPic + " alt = " + characters[enemyId].name + "><h4 class = 'charPickName'>" + characters[enemyId].name + "</h4></div></div>");
             $("#attackButton").off("click");
             $(".enemyPickBack").on("click", characterPick);
-            winRounds++
+            $("#enemyArea").html("<p>Choose an enemy</p>");
+            winRounds++;
         }
 
         if (playerHealth <= 0) {
-            $("attackButton").off("click");
+            $("#attackButton").off("click");
             $("#playerImg").attr("src",characters[playerId].defeatPic);
             $("#charAreaTitle").empty();
             $("#charAreaTitle").html("<br/><div class=col-md-12><h1 style='align: center'>Y O U &nbsp L O S E</h1><p>(Press Any Key to Play Again)</p><div>");
         }
 
         if (winRounds===5) {
-            $("attackButton").off("click");
+            $("#attackButton").off("click");
             $("#charAreaTitle").empty();
-            $("#charAreaTitle").html("<br/><div class=col-md-12><h1 style='align: center'>Y O U &nbsp W I N</h1><p>(Press Any Key to Play Again)</p><div>");  
+            $("#enemyArea").empty();
+            $("#charAreaTitle").html("<br/><div class=col-md-12><h1 style='align: center'>Y O U &nbsp W I N</h1><p>(Press Any Key to Play Again)</p><div>");
         }
-          
+
+        if (winRounds===5&&playerHealth <= 0) {
+            $("#attackButton").off("click");
+            $("#charAreaTitle").empty();
+            $("#enemyArea").empty();
+            $("#charAreaTitle").html("<br/><div class=col-md-12><h1 style='align: center'>Y O U &nbsp W I N</h1><h2>You lost your life in the process! Your sacrifice will be remembered!</h2><p>(Press Any Key to Play Again)</p><div>");
+        }
     };
 
 };
